@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Type Decision Tree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Review Type Decision Tree</h1>
+        <p id="description">Answer the questions to determine the most suitable review type for your research.</p>
+        <div id="questionContainer">
+            <h2 id="questionText"></h2>
+            <div id="options"></div>
+        </div>
+        <div id="result"></div>
+        <div class="footer">
+            <button id="backBtn" onclick="goBack()" disabled>Back</button>
+            <span id="progress"></span>
+            <button id="resetBtn" onclick="resetQuiz()" style="display: none;">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        const reviewTypes = {
+            traditional: {
+                title: "Traditional Review",
+                description: "Narrative summary and overview of existing literature on a topic, often without a systematic methodology, systematic search, or quality assessment. Used to provide a broad overview or summary of a subject area."
+            },
+            rapid: {
+                title: "Rapid Review",
+                description: "Streamlined systematic review that uses accelerated and simplified processes to synthesize evidence within a shortened timeframe. Used when there is a need for quick evidence summaries, often in policy or decision-making contexts."
+            },
+            scoping: {
+                title: "Scoping/Mapping Review",
+                description: "Preliminary review that maps the key concepts, types of evidence, and gaps in a research area, often used to determine the feasibility and scope of a full systematic review."
+            },
+            critical: {
+                title: "Critical Review",
+                description: "Provides a critical evaluation of existing literature on a particular topic, identifying strengths, weaknesses, and gaps. Used to synthesize and critique a body of research. Typically results in a hypothesis or model."
+            },
+            systematicQualitative: {
+                title: "Systematic Qualitative Review",
+                description: "Systematic approach to synthesizing qualitative research studies (interviews, observational data), often using techniques like meta-ethnography or thematic synthesis. Used to develop deeper insights and interpretations of complex phenomena."
+            },
+            systematicQuantitative: {
+                title: "Systematic Quantitative Review",
+                description: "Rigorous review that follows a predefined methodology to identify, critically appraise, and synthesizes all relevant studies on a specific research question. Used to provide a comprehensive and unbiased summary of the best available evidence."
+            },
+            systematicMixed: {
+                title: "Systematic Mixed Methods Review",
+                description: "Review that integrates both qualitative and quantitative evidence and methods to develop a comprehensive understanding of a complex issue or intervention. Used to combine different forms of evidence."
+            },
+            metaAnalysis: {
+                title: "Meta-Analysis",
+                description: "Quantitative statistical analysis that combines the results of multiple studies to provide a comprehensive estimate of an effect or relationship (overall effect size). Used to synthesize the results of multiple studies, increase statistical power and resolve inconsistencies across studies."
+            }
+        };
+
+        const questions = [
+            {
+                id: 1,
+                text: "Does the review follow systematic methodological guidelines and are those processes transparently documented?",
+                options: [
+                    { text: "Yes", nextQuestion: 2 },
+                    { text: "No", result: "traditional" }
+                ]
+            },
+            {
+                id: 2,
+                text: "Does the review simplify the search and/or screening process to produce information in a short period of time?",
+                options: [
+                    { text: "Yes", result: "rapid" },
+                    { text: "No", nextQuestion: 3 }
+                ]
+            },
+            {
+                id: 3,
+                text: "Does the review aim at examining the extent, range, and nature of research activity to give an overview of topic or area, without deeper analysis and structured synthesis of study results?",
+                options: [
+                    { text: "Yes", result: "scoping" },
+                    { text: "No", nextQuestion: 4 }
+                ]
+            },
+            {
+                id: 4,
+                text: "Does the review focus on a conceptual contribution of the included literature and not include a quality assessment of empirical studies included?",
+                options: [
+                    { text: "Yes", result: "critical" },
+                    { text: "No", nextQuestion: 5 }
+                ]
+            },
+            {
+                id: 5,
+                text: "What kind of data has been collected?",
+                options: [
+                    { text: "Qualitative", result: "systematicQualitative" },
+                    { text: "Quantitative", nextQuestion: 6 },
+                    { text: "Mixed", result: "systematicMixed" }
+                ]
+            },
+            {
+                id: 6,
+                text: "Did you use statistical methods to combine the results of multiple studies for a comprehensive estimate?",
+                options: [
+                    { text: "Yes", result: "metaAnalysis" },
+                    { text: "No", result: "systematicQuantitative" }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        const history = [];
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('questionText').textContent = `Question ${currentQuestion + 1}: ${question.text}`;
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option.text;
+                button.onclick = () => handleAnswer(option);
+                optionsContainer.appendChild(button);
+            });
+            updateProgress();
+        }
+
+        function handleAnswer(option) {
+            history.push(currentQuestion);
+            if (option.result) {
+                displayResult(option.result);
+            } else {
+                currentQuestion = option.nextQuestion - 1;
+                displayQuestion();
+            }
+            document.getElementById('backBtn').disabled = false;
+        }
+
+        function displayResult(result) {
+            const reviewType = reviewTypes[result];
+            document.getElementById('questionContainer').style.display = 'none';
+            document.getElementById('result').innerHTML = `
+                <h2>${reviewType.title}</h2>
+                <p>${reviewType.description}</p>
+            `;
+            document.getElementById('resetBtn').style.display = 'block';
+            document.getElementById('backBtn').style.display = 'none';
+            document.getElementById('progress').style.display = 'none';
+        }
+
+        function goBack() {
+            if (history.length > 0) {
+                currentQuestion = history.pop();
+                displayQuestion();
+                if (history.length === 0) {
+                    document.getElementById('backBtn').disabled = true;
+                }
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            history.length = 0;
+            document.getElementById('questionContainer').style.display = 'block';
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('resetBtn').style.display = 'none';
+            document.getElementById('backBtn').style.display = 'inline-block';
+            document.getElementById('backBtn').disabled = true;
+            document.getElementById('progress').style.display = 'inline';
+            displayQuestion();
+        }
+
+        function updateProgress() {
+            document.getElementById('progress').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+        }
+
+        // Start the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>
