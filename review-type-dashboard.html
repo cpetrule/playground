@@ -19,16 +19,18 @@
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+			text-align: center;
         }
         h1 {
             text-align: center;
             color: #2c3e50;
         }
         h2 {
-            color: #34495e;
+            text-align: center;
+			color: #34495e;
         }
         button {
-            background-color: #3498db;
+            background-color: #35d497;
             color: white;
             border: none;
             padding: 10px 15px;
@@ -38,7 +40,7 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #2980b9;
+            background-color: #23a674;
         }
         button:disabled {
             background-color: #bdc3c7;
@@ -46,11 +48,12 @@
         }
         #result {
             font-weight: bold;
+			justify-content: center;
             margin-top: 20px;
         }
         .footer {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             margin-top: 20px;
         }
@@ -165,7 +168,7 @@
 
         function displayQuestion() {
             const question = questions[currentQuestion];
-            document.getElementById('questionText').textContent = `Question ${currentQuestion + 1}: ${question.text}`;
+            document.getElementById('questionText').innerHTML = `Question ${currentQuestion + 1}:<br>${question.text}`;
             const optionsContainer = document.getElementById('options');
             optionsContainer.innerHTML = '';
             question.options.forEach((option) => {
@@ -198,6 +201,7 @@
             document.getElementById('resetBtn').style.display = 'block';
             document.getElementById('backBtn').style.display = 'none';
             document.getElementById('progress').style.display = 'none';
+			document.getElementById('description').style.display = 'none';
         }
 
         function goBack() {
@@ -219,6 +223,7 @@
             document.getElementById('backBtn').style.display = 'inline-block';
             document.getElementById('backBtn').disabled = true;
             document.getElementById('progress').style.display = 'inline';
+			document.getElementById('description').style.display = 'block';
             displayQuestion();
         }
 
