@@ -30,7 +30,7 @@
 			color: #34495e;
         }
         button {
-            background-color: #35d497;
+            background-color: #4285f4;
             color: white;
             border: none;
             padding: 10px 15px;
@@ -40,7 +40,7 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #23a674;
+            background-color: #3063b8;
         }
         button:disabled {
             background-color: #bdc3c7;
@@ -56,6 +56,31 @@
             justify-content: center;
             align-items: center;
             margin-top: 20px;
+		}
+	/* Yes button: green background */
+		.yes-button {
+			background-color: #01ab96;
+		}
+
+	/* No button: red background */
+		.no-button {
+			background-color: #ee685c;
+		}
+
+    /* Hover effect for Yes button: darker green */
+		.yes-button:hover {
+			background-color: #008574;
+		}
+
+    /* Hover effect for No button: darker red */
+		.no-button:hover {
+			background-color: #c4554b;
+		}
+
+    /* Disabled button styling */
+		button:disabled {
+			background-color: #bdc3c7;
+			cursor: not-allowed;
         }
     </style>
 </head>
@@ -70,7 +95,7 @@
         <div id="result"></div>
         <div class="footer">
             <button id="backBtn" onclick="goBack()" disabled>Back</button>
-            <span id="progress"></span>
+            <div id="progress"></div>
             <button id="resetBtn" onclick="resetQuiz()" style="display: none;">Start Over</button>
         </div>
     </div>
@@ -174,7 +199,15 @@
             question.options.forEach((option) => {
                 const button = document.createElement('button');
                 button.textContent = option.text;
-                button.onclick = () => handleAnswer(option);
+                
+				 // Apply specific styling for "Yes" and "No" buttons
+					if (option.text === "Yes") {
+						button.classList.add('yes-button'); // Add class for "Yes"
+					} else if (option.text === "No") {
+						button.classList.add('no-button'); // Add class for "No"
+					}
+				
+				button.onclick = () => handleAnswer(option);
                 optionsContainer.appendChild(button);
             });
             updateProgress();
@@ -228,7 +261,7 @@
         }
 
         function updateProgress() {
-            document.getElementById('progress').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            document.getElementById('progress').innerHTML = `Question ${currentQuestion + 1} of ${questions.length}`;
         }
 
         // Start the quiz
