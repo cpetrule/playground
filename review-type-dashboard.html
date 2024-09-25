@@ -76,35 +76,35 @@
         const reviewTypes = {
             traditional: {
                 title: "Traditional Review",
-                description: "You are conducting a Tranditional Review: a narrative summary and overview of existing literature on a topic, often without a systematic methodology, systematic search, or quality assessment. Used to provide a broad overview or summary of a subject area. <br>Here is the link to the report form: <a href="https://forms.gle/91bTPJzZx4XswPZc8" target="_blank">Report Form</a>"
+                description: `You are conducting a Traditional Review: a narrative summary and overview of existing literature on a topic, often without a systematic methodology, systematic search, or quality assessment. Used to provide a broad overview or summary of a subject area.<br><br>Here is the link to the report form: <a href="https://forms.gle/91bTPJzZx4XswPZc8" target="_blank">Traditional Review Report Form</a>`
             },
             rapid: {
                 title: "Rapid Review",
-                description: "You are conducting a Rapid Review: a streamlined systematic review that uses accelerated and simplified processes to synthesize evidence within a shortened timeframe. Used when there is a need for quick evidence summaries, often in policy or decision-making contexts."
+                description: `You are conducting a Rapid Review: a streamlined systematic review that uses accelerated and simplified processes to synthesize evidence within a shortened timeframe. Used when there is a need for quick evidence summaries, often in policy or decision-making contexts.<br><br>Here is the link to the report form: <a href="https://forms.gle/A77xPGAakEYTmzHg7" target="_blank">Rapid Review Report Form</a>`
             },
             scoping: {
                 title: "Scoping/Mapping Review",
-                description: "You are conducting a Scoping/Mapping Review: a preliminary review that maps the key concepts, types of evidence, and gaps in a research area, often used to determine the feasibility and scope of a full systematic review."
+                description: `You are conducting a Scoping/Mapping Review: a preliminary review that maps the key concepts, types of evidence, and gaps in a research area, often used to determine the feasibility and scope of a full systematic review.<br><br>Here is the link to the report form: <a href="https://forms.gle/axfUA1viUPvZmBba6" target="_blank">Scoping/ Mapping Review Report Form</a>`
             },
             critical: {
                 title: "Critical Review",
-                description: "You are conducting a Critical Review: which provides a critical evaluation of existing literature on a particular topic, identifying strengths, weaknesses, and gaps. Used to synthesize and critique a body of research. Typically results in a hypothesis or model."
+                description: `You are conducting a Critical Review: which provides a critical evaluation of existing literature on a particular topic, identifying strengths, weaknesses, and gaps. Used to synthesize and critique a body of research. Typically results in a hypothesis or model.<br><br>Here is the link to the report form: <a href="https://forms.gle/g7p1bXb8cZXr1QNY8" target="_blank">Critical Review Report Form</a>`
             },
             systematicQualitative: {
                 title: "Systematic Qualitative Review",
-                description: "You are conducting a Systematic Qualitative Review: a systematic approach to synthesizing qualitative research studies (interviews, observational data), often using techniques like meta-ethnography or thematic synthesis. Used to develop deeper insights and interpretations of complex phenomena."
+                description: `You are conducting a Systematic Qualitative Review: a systematic approach to synthesizing qualitative research studies (interviews, observational data), often using techniques like meta-ethnography or thematic synthesis. Used to develop deeper insights and interpretations of complex phenomena.<br><br>Here is the link to the report form: <a href="https://forms.gle/hGj1Y9vPsHCd56oQA" target="_blank">Systematic Qualitative Review Report Form</a>`
             },
             systematicQuantitative: {
                 title: "Systematic Quantitative Review",
-                description: "You are conducting a Systematic Quantitative Review: a rigorous review that follows a predefined methodology to identify, critically appraise, and synthesizes all relevant studies on a specific research question. Used to provide a comprehensive and unbiased summary of the best available evidence."
+                description: `You are conducting a Systematic Quantitative Review: a rigorous review that follows a predefined methodology to identify, critically appraise, and synthesizes all relevant studies on a specific research question. Used to provide a comprehensive and unbiased summary of the best available evidence.<br><br>Here is the link to the report form: <a href="https://forms.gle/WGpKqm4PxDnr5o6Q6" target="_blank">Systematic Quantitative Review Report Form</a>`
             },
             systematicMixed: {
                 title: "Systematic Mixed Methods Review",
-                description: "You are conducting a Systematic Mixed Methods Review: which integrates both qualitative and quantitative evidence and methods to develop a comprehensive understanding of a complex issue or intervention. Used to combine different forms of evidence."
+                description: `You are conducting a Systematic Mixed Methods Review: which integrates both qualitative and quantitative evidence and methods to develop a comprehensive understanding of a complex issue or intervention. Used to combine different forms of evidence.<br><br>Here is the link to the report form: <a href="https://forms.gle/3wYpLzWEmGiak4Y97" target="_blank">Systematic Mixed Methods Report Form</a>`
             },
             metaAnalysis: {
                 title: "Meta-Analysis",
-                description: "You are conducting a Meta Analysis: a quantitative statistical analysis that combines the results of multiple studies to provide a comprehensive estimate of an effect or relationship (overall effect size). Used to synthesize the results of multiple studies, increase statistical power and resolve inconsistencies across studies."
+                description: `You are conducting a Meta Analysis: a quantitative statistical analysis that combines the results of multiple studies to provide a comprehensive estimate of an effect or relationship (overall effect size). Used to synthesize the results of multiple studies, increase statistical power and resolve inconsistencies across studies.<br><br>Here is the link to the report form: <a href="https://forms.gle/hhkTREUbZtAWkPCi7" target="_blank">Meta-Analysis Report Form</a>`
             }
         };
 
@@ -168,7 +168,7 @@
             document.getElementById('questionText').textContent = `Question ${currentQuestion + 1}: ${question.text}`;
             const optionsContainer = document.getElementById('options');
             optionsContainer.innerHTML = '';
-            question.options.forEach((option, index) => {
+            question.options.forEach((option) => {
                 const button = document.createElement('button');
                 button.textContent = option.text;
                 button.onclick = () => handleAnswer(option);
